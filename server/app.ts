@@ -1,24 +1,45 @@
-﻿import {ErrorMiddleware} from "./middleware/error";
-
-require('dotenv').config();
+﻿require('dotenv').config();
+import {ErrorMiddleware} from './middleware/error';
 import express, {Request, Response, NextFunction} from 'express';
 export const app = express();
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
+import userRouter from "./routers/user.router";
+import swaggerJSDoc from "swagger-jsdoc";
+import SwaggerUi from "swagger-ui-express";
+
+const options = {
+    definition: {
+        openapi:'3.0.0',
+        info: {
+            title: 'Library API',
+            version:'1.0.0',
+            description: 'LMS API'
+        },
+        server: process.env.ORIGIN,
+        apis: ['./routers/*.ts']
+    }
+}
+
+const specs = swaggerJSDoc(options);
+app.use('/api-docs', SwaggerUi.serve, SwaggerUi.setup(specs));
 
 // Body parse
 app.use(express.json({limit: '50mb'}))
 
-//Cookie parse
+// Cookie parse
 app.use(cookieParser());
 
-//cors => Cross origin resource sharing
+// cors => Cross origin resource sharing
 app.use(cors({
     origin: process.env.ORIGIN
 }));
 
+// routers
+app.use('/api/v1', userRouter);
+
 // testing API
-    app.get('/test',(req: Request,res: Response,next: NextFunction) => {
+app.get('/test',(req: Request,res: Response,next: NextFunction) => {
     res.status(200).json({
         success: true,
         message: 'API is working'
