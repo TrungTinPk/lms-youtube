@@ -5,8 +5,6 @@ export const app = express();
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import userRouter from "./routers/user.router";
-import swaggerJSDoc from "swagger-jsdoc";
-import SwaggerUi from "swagger-ui-express";
 
 const options = {
     definition: {
@@ -20,9 +18,6 @@ const options = {
         apis: ['./routers/*.ts']
     }
 }
-
-const specs = swaggerJSDoc(options);
-app.use('/api-docs', SwaggerUi.serve, SwaggerUi.setup(specs));
 
 // Body parse
 app.use(express.json({limit: '50mb'}))

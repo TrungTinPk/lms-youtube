@@ -1,0 +1,14 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "LMS API overview",
+    "description": "",
+    "license": {
+      "name": "MTI"
+    }
+  },
+  "paths": {
+
+  }
+}
