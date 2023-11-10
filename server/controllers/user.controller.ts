@@ -10,6 +10,7 @@ import jwt, {Secret} from 'jsonwebtoken';
 import ejs from 'ejs';
 import sendMail from "../utils/sendMail";
 import {sendToken} from "../utils/jwt";
+import {redis} from "../utils/redis";
 
 interface  IRegistrationBody {
     name: string;
@@ -150,6 +151,8 @@ export const logoutUser = CatchAsyncError(async(req: Request, res: Response, nex
     try {
         res.cookie('access_token', "", {maxAge: 1});
         res.cookie('refreshToken', '', {maxAge: 1});
+        const userId = req.user?._id || '';
+        redis.del(userId);
         res.status(200).json({
             success: true,
             message: 'Logged out successfully'
@@ -159,3 +162,12 @@ export const logoutUser = CatchAsyncError(async(req: Request, res: Response, nex
         return next(new ErrorHandler(error.message, 400))
     }
 });
+
+export const authorizeRoles = (...roles: string[]) => {
+    return (req: Request, res: Response, next: NextFunction) => {
+        if (!roles.includes(req.user?.role || '')) {
+            return next(new ErrorHandler(`Roles ${req.user?.role} is not allowed to access this resource.`, 403))
+        }
+        next();
+    }
+}
