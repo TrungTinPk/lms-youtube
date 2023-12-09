@@ -1,5 +1,4 @@
 // register user
-import path from "path";
 
 require('dotenv').config();
 import {CatchAsyncError} from "../middleware/catchAsyncErrors";
@@ -7,7 +6,6 @@ import {NextFunction, Request, Response} from "express";
 import ErrorHandler from "../utils/ErrorHandler";
 import userModel, {IUser} from "../models/user.model";
 import jwt, {JwtPayload, Secret} from 'jsonwebtoken';
-import ejs from 'ejs';
 import sendMail from "../utils/sendMail";
 import {accessTokenOptions, refreshTokenOptions, sendToken} from "../utils/jwt";
 import {redis} from "../utils/redis";

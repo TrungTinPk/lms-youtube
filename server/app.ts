@@ -5,6 +5,7 @@ export const app = express();
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import userRouter from "./routers/user.router";
+import courseRouter from "./routers/course.router";
 
 const options = {
     definition: {
@@ -32,6 +33,7 @@ app.use(cors({
 
 // routers
 app.use('/api/v1', userRouter);
+app.use('/api/v1', courseRouter);
 
 // testing API
 app.get('/test',(req: Request,res: Response,next: NextFunction) => {
