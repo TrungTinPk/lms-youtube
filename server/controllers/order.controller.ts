@@ -12,6 +12,8 @@ import sendMail from "../utils/sendMail";
 import {IOrder} from "../models/order.model";
 import userModel from "../models/user.model";
 import CourseModel from "../models/course.model";
+import {newOrder} from "../services/order.service";
+import ejs from "ejs";
 
 export const createOrder = CatchAsyncError(async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -33,7 +35,18 @@ export const createOrder = CatchAsyncError(async (req: Request, res: Response, n
             userId: user?._id
         }
 
-        createCourse(data, res, next);
+        newOrder(data,res, next);
+
+        const mailData = {
+            order: {
+                _id: course._id.slice(0,6),
+                name: course.name,
+                price: course.price,
+                date: new Date().toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: 'numeric'})
+            }
+        }
+
+        const html = await ejs.renderFile(path.join(__dirname,'../mails/order-confirmation.ejs'), mailData);
     }
     catch (error: any) {
         return next(new ErrorHandler(error.message, 500));
