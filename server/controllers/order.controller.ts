@@ -14,6 +14,7 @@ import userModel from "../models/user.model";
 import CourseModel from "../models/course.model";
 import {newOrder} from "../services/order.service";
 import ejs from "ejs";
+import NotificationModel from "../models/notification.model";
 
 export const createOrder = CatchAsyncError(async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -27,15 +28,13 @@ export const createOrder = CatchAsyncError(async (req: Request, res: Response, n
 
         const course = await  CourseModel.findById(courseId);
         if (!course) {
-            return next(new ErrorHandler('Course not found', 400))
+            return next(new ErrorHandler('Course not found', 400));
         }
 
         const data: any = {
             courseId: course._id,
             userId: user?._id
-        }
-
-        newOrder(data,res, next);
+        };
 
         const mailData = {
             order: {
@@ -46,7 +45,34 @@ export const createOrder = CatchAsyncError(async (req: Request, res: Response, n
             }
         }
 
-        const html = await ejs.renderFile(path.join(__dirname,'../mails/order-confirmation.ejs'), mailData);
+        try {
+            if (user) {
+                await sendMail({
+                    email: user.email,
+                    subject: 'Order Confirmation',
+                    template: 'order-confirmation.ejs',
+                    data: mailData
+                })
+            }
+        }
+        catch (error: any) {
+            return next(new ErrorHandler(error.message, 400));
+        }
+
+        user?.courses.push(course?._id);
+
+        await user?.save();
+
+        await NotificationModel.create({
+            user: user?._id,
+            title: 'New Order',
+            message: `You have a new order from ${course?.name}`
+        });
+        course.purchased ? course.purchased += 1 : course.purchased;
+
+        await course.save();
+
+        newOrder(data,res, next);
     }
     catch (error: any) {
         return next(new ErrorHandler(error.message, 500));
