@@ -9,7 +9,7 @@ import jwt, {JwtPayload, Secret} from 'jsonwebtoken';
 import sendMail from "../utils/sendMail";
 import {accessTokenOptions, refreshTokenOptions, sendToken} from "../utils/jwt";
 import {redis} from "../utils/redis";
-import {getUserById} from "../services/user.service";
+import {getAllUsersService, getUserById} from "../services/user.service";
 import  cloudinary from 'cloudinary';
 
 interface  IRegistrationBody {
@@ -203,15 +203,6 @@ export const updateAccessToken = CatchAsyncError(async (req: Request, res: Respo
     }
 });
 
-export const authorizeRoles = (...roles: string[]) => {
-    return (req: Request, res: Response, next: NextFunction) => {
-        if (!roles.includes(req.user?.role || '')) {
-            return next(new ErrorHandler(`Roles ${req.user?.role} is not allowed to access this resource.`, 403))
-        }
-        next();
-    }
-};
-
 export const getUserInfo = CatchAsyncError(async (req: Request, res:Response, next: NextFunction)=> {
     try {
         const userId = req.user?._id;
@@ -350,6 +341,16 @@ export const updateProfilePicture = CatchAsyncError(async (req: Request, res:Res
             success: true,
             user
         })
+    }
+    catch (error: any) {
+        return next(new ErrorHandler(error.message, 400))
+    }
+});
+
+// Get All Users --- only admin
+export const getAllUsers = CatchAsyncError(async (req: Request, res:Response, next: NextFunction) => {
+    try {
+        getAllUsersService(res);
     }
     catch (error: any) {
         return next(new ErrorHandler(error.message, 400))

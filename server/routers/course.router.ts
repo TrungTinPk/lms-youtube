@@ -1,5 +1,6 @@
+import { getAllCoursesAdminOnly } from './../controllers/course.controller';
 import express from "express";
-import {isAuthenticated} from "../middleware/auth";
+import {isAuthenticated, authorizeRoles} from "../middleware/auth";
 import {
     addAnswer,
     addQuestion, addReplyToReview, addReview,
@@ -8,7 +9,6 @@ import {
     getSingleCourse,
     uploadCourse
 } from "../controllers/course.controller";
-import {authorizeRoles} from "../controllers/user.controller";
 const courseRouter = express.Router();
 
 courseRouter.post(
@@ -64,4 +64,12 @@ courseRouter.put(
     authorizeRoles('admin'),
     addReplyToReview
 );
+
+courseRouter.get(
+    '/get-courses',
+    isAuthenticated,
+    authorizeRoles('admin'),
+    getAllCoursesAdminOnly
+);
+
 export default courseRouter;

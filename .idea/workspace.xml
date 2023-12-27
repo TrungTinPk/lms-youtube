@@ -5,12 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d59a3a40-6f93-4487-94e8-e24316e83957" name="Changes" comment="Feature: Course order controller">
-      <change afterPath="$PROJECT_DIR$/server/routers/order.router.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/app.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/app.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/controllers/order.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/order.controller.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/mails/order-confirmation.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/server/mails/order-confirmation.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/services/order.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/services/order.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/controllers/course.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/course.controller.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,7 +80,8 @@
       <workItem from="1703254819435" duration="117000" />
       <workItem from="1703254986792" duration="1677000" />
       <workItem from="1703409015421" duration="3602000" />
-      <workItem from="1703423913930" duration="1414000" />
+      <workItem from="1703423913930" duration="1526000" />
+      <workItem from="1703684027832" duration="815000" />
     </task>
     <task id="LOCAL-00001" summary="Feature: Course module">
       <option name="closed" value="true" />
@@ -101,7 +99,15 @@
       <option name="project" value="LOCAL" />
       <updated>1702218539294</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Feature: Course order controller">
+      <option name="closed" value="true" />
+      <created>1703425414026</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1703425414026</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

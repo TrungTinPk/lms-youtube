@@ -7,6 +7,7 @@ import cookieParser from 'cookie-parser';
 import userRouter from "./routers/user.router";
 import courseRouter from "./routers/course.router";
 import orderRouter from "./routers/order.router";
+import notificationRouter from './routers/notification.route';
 
 const options = {
     definition: {
@@ -33,7 +34,7 @@ app.use(cors({
 }));
 
 // routers
-app.use('/api/v1', userRouter, courseRouter, orderRouter);
+app.use('/api/v1', userRouter, courseRouter, orderRouter, notificationRouter);
 
 // testing API
 app.get('/test',(req: Request,res: Response,next: NextFunction) => {
