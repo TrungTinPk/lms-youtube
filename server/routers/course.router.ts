@@ -1,4 +1,4 @@
-import { getAllCoursesAdminOnly } from './../controllers/course.controller';
+import { deleteCourse, getAllCoursesAdminOnly } from './../controllers/course.controller';
 import express from "express";
 import {isAuthenticated, authorizeRoles} from "../middleware/auth";
 import {
@@ -65,11 +65,18 @@ courseRouter.put(
     addReplyToReview
 );
 
-courseRouter.get(
+courseRouter.put(
     '/get-courses',
     isAuthenticated,
     authorizeRoles('admin'),
     getAllCoursesAdminOnly
+);
+
+courseRouter.delete(
+    '/delete-course/:id',
+    isAuthenticated,
+    authorizeRoles('admin'),
+    deleteCourse
 );
 
 export default courseRouter;

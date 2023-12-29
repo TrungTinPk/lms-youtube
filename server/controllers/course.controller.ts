@@ -1,4 +1,3 @@
-import { getAllCourseService } from './../services/course.service';
 import {createCourse, getAllCourseService} from "../services/course.service";
 
 require('dotenv').config();
@@ -384,3 +383,27 @@ export const getAllCoursesAdminOnly = CatchAsyncError(async (req: Request, res: 
         return next(new ErrorHandler(error.message, 500));
     }
 }); 
+
+
+// Delete course
+export const deleteCourse = CatchAsyncError(async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const courseId = req.params.id;
+        const course = await CourseModel.findById(courseId);
+
+        if (!course) {
+            return next(new ErrorHandler('Course not found', 404));
+        }
+
+        await course.deleteOne();
+        await redis.del(courseId);
+
+        res.status(200).json({
+            success: true,
+            message: 'Course deleted successfully'
+        })
+    }
+    catch (error: any) {
+        return next(new ErrorHandler(error.message, 500));
+    }
+});
