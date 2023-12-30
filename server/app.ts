@@ -9,6 +9,7 @@ import courseRouter from "./routers/course.router";
 import orderRouter from "./routers/order.router";
 import notificationRouter from './routers/notification.route';
 import analyticsRouter from './routers/analytics.router';
+import layoutRouter from './routers/layout.router';
 
 const options = {
     definition: {
@@ -35,7 +36,7 @@ app.use(cors({
 }));
 
 // routers
-app.use('/api/v1', userRouter, courseRouter, orderRouter, notificationRouter, analyticsRouter);
+app.use('/api/v1', userRouter, courseRouter, orderRouter, notificationRouter, analyticsRouter, layoutRouter);
 
 // testing API
 app.get('/test',(req: Request,res: Response,next: NextFunction) => {
