@@ -1,6 +1,6 @@
 import { Response } from 'express';
 import {redis} from "../utils/redis";
-import userModel from '../models/user.model';
+import UserModel from '../models/user.model';
 
 // Get user by id
 export const getUserById = async (id: string, res: Response) => {
@@ -16,7 +16,7 @@ export const getUserById = async (id: string, res: Response) => {
 
 // Get all users
 export const getAllUsersService = async (res: Response) => {
-    const users = await userModel.find().sort({ createdAt: -1 });
+    const users = await UserModel.find().sort({ createdAt: -1 });
     res.status(200).json({
         success: true,
         users
@@ -25,7 +25,7 @@ export const getAllUsersService = async (res: Response) => {
 
 // Update user role
 export const updateUserRoleService = async(res: Response, id: string, role: string) => {
-    const user = await userModel.findByIdAndDelete(id, {role}, {new: true});
+    const user = await UserModel.findByIdAndDelete(id, {role});
     res.status(200).json({
         success: true,
         user

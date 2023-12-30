@@ -87,5 +87,5 @@ userSchema.methods.SignRefreshToken = function (){
     return jwt.sign({id: this._id}, process.env.REFRESH_TOKEN || '');
 }
 
-const userModel: Model<IUser> = mongoose.model("User", userSchema);
-export default  userModel;
+const UserModel: Model<IUser> = mongoose.model("User", userSchema);
+export default  UserModel;
